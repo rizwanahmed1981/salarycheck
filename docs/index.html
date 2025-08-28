@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <!-- Base href (replaced during build with --base-href) -->
+  <base href="/salarycheck/">
+
+  <!-- Security headers for WebAssembly with threads (REQUIRED for --wasm) -->
+  <meta http-equiv="Cross-Origin-Embedder-Policy" content="credentialless">
+  <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+
+  <!-- App Description -->
+  <meta name="description" content="SalaryCheck - See what people really earn based on real public posts from Reddit, X, and LinkedIn. Anonymous. No login.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon.png">
+
+  <!-- Apple Touch Icon (iOS) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="SalaryCheck">
+  <link rel="apple-touch-icon" href="/icons/Icon-192.png">
+
+  <!-- Android / PWA -->
+  <meta name="theme-color" content="#4285F4">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Manifest -->
+  <link rel="manifest" href="/manifest.json" crossorigin="use-credentials">
+
+  <!-- App Title -->
+  <title>SalaryCheck</title>
+
+  <!-- Prevent flash of unstyled content (optional) -->
+  <style>
+    body { margin: 0; }
+    #loading-spinner {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      z-index: 9999;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #4285F4;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Spinner -->
+  <div id="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Flutter App -->
+  <script src="flutter_bootstrap.js" async></script>
+
+  <!-- Optional: Analytics or other scripts go here -->
+
+  <script>
+    // Optional: Detect if running with Wasm
+    const isRunningWithWasm = bool.fromEnvironment('dart.tool.dart2wasm');
+    console.log('Running with Wasm:', isRunningWithWasm);
+  </script>
+</body>
+</html>
