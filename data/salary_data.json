@@ -1,0 +1,20 @@
+{
+  "updated_at": "2025-04-05T10:00:00Z",
+  "sources": {
+    "reddit": [
+      {
+        "title": "Got $120k offer in NYC as Fullstack Dev",
+        "text": "After 3 years of experience, landed a great role at a fintech startup.",
+        "subreddit": "cscareerquestions",
+        "url": "https://reddit.com/r/cscareerquestions/..."
+      }
+    ],
+    "x": [
+      {
+        "user": "dev_john",
+        "text": "Just got $95k remote job in Canada as frontend dev with 2 years exp!",
+        "url": "https://twitter.com/dev_john/status/..."
+      }
+    ]
+  }
+}
