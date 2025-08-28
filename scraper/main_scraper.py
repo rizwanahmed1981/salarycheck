@@ -5,9 +5,9 @@ import json
 from datetime import datetime
 
 # --- CONFIG (YOU FILL THESE) ---
-REDDIT_CLIENT_ID = "INSERT_YOUR_CLIENT_ID"
-REDDIT_CLIENT_SECRET = "INSERT_YOUR_SECRET"
-REDDIT_USER_AGENT = "salarycheck-scraper-v1"
+REDDIT_CLIENT_ID = "razykhan"
+REDDIT_CLIENT_SECRET = "6-m8lF-zbI1Xv5QpCf92fiwSzFl4xA"
+REDDIT_USER_AGENT = "salarycheck-scraper"
 
 # --- SCRAPER FUNCTIONS ---
 def scrape_reddit():
