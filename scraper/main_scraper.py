@@ -1,61 +1,43 @@
-# scraper/main.py
+# scraper/main_scraper.py
 import praw
-import snscrape.modules.twitter as sntwitter
+import os
 import json
 from datetime import datetime
 
-# --- CONFIG (YOU FILL THESE) ---
-REDDIT_CLIENT_ID = "razykhan"
-REDDIT_CLIENT_SECRET = "6-m8lF-zbI1Xv5QpCf92fiwSzFl4xA"
-REDDIT_USER_AGENT = "salarycheck-scraper"
-
-# --- SCRAPER FUNCTIONS ---
 def scrape_reddit():
     reddit = praw.Reddit(
-        client_id=REDDIT_CLIENT_ID,
-        client_secret=REDDIT_CLIENT_SECRET,
-        user_agent=REDDIT_USER_AGENT
+        client_id=os.getenv("REDDIT_CLIENT_ID"),
+        client_secret=os.getenv("REDDIT_CLIENT_SECRET"),
+        user_agent=os.getenv("REDDIT_USER_AGENT", "salarycheck scraper"),
     )
     results = []
-    for sub in reddit.subreddit("cscareerquestions+antiwork+forhire").new(limit=100):
-        text = (sub.selftext or "")[:300]
-        if any(kw in (sub.title + text).lower() for kw in ['salary', 'offer', 'pay', 'comp']):
+    for submission in reddit.subreddit("cscareerquestions+antiwork+forhire").new(limit=50):
+        text = (submission.selftext or "").lower()
+        title = submission.title.lower()
+        if any(kw in title or kw in text for kw in ['salary', 'offer', 'pay']):
             results.append({
-                "title": sub.title,
-                "text": text,
-                "subreddit": str(sub.subreddit),
-                "url": f"https://reddit.com{sub.permalink}",
-                "created": sub.created_utc
+                "title": submission.title,
+                "text": text[:300],
+                "subreddit": str(submission.subreddit),
+                "url": f"https://reddit.com{submission.permalink}",
             })
     return results
 
 def scrape_x():
-    results = []
-    for tweet in sntwitter.TwitterSearchScraper("salary OR offer OR compensation").get_items():
-        if len(results) >= 50:
-            break
-        if any(kw in tweet.content.lower() for kw in ['salary', 'offer', 'pay']):
-            results.append({
-                "user": tweet.user.username,
-                "text": tweet.content,
-                "url": f"https://twitter.com/user/status/{tweet.id}",
-                "created": tweet.date.isoformat()
-            })
-    return results
+    return []  # Skip for now
 
-# --- RUN ---
 if __name__ == "__main__":
     print("🔄 Starting scraper...")
     data = {
-        "updated_at": datetime.utcnow().isoformat(),
+        "updated_at": datetime.now().isoformat() + "Z",
         "sources": {
             "reddit": scrape_reddit(),
-            "x": scrape_x()
+            "x": []
         }
     }
 
-    # Save to ../data/salary_data.json
+    os.makedirs('../data', exist_ok=True)
     with open('../data/salary_data.json', 'w') as f:
         json.dump(data, f, indent=2)
 
-    print(f"✅ Saved {len(data['sources']['reddit'])} Reddit + {len(data['sources']['x'])} X posts")
+    print(f"✅ Saved {len(data['sources']['reddit'])} Reddit posts to ../data/salary_data.json")
